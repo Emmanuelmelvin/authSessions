@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const app = express()
 
 app.set('trust proxy', 1) // trust first proxy
+app.use(express.json())
 
 const mongoURI = "mongodb://localhost:27017/sessions"
 mongoose
