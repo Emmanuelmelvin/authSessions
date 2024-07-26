@@ -3,10 +3,12 @@ const session = require("express-session")
 const MongoDBSession = require('connect-mongodb-session')
 const MongoDBSessionInstance = MongoDBSession(session)
 const mongoose = require('mongoose')
+const router = require("./routes/authRoute")
 const app = express()
 
-app.set('trust proxy', 1) // trust first proxy
+// app.set('trust proxy', 1) // trust first proxy
 app.use(express.json())
+app.use(router)
 
 const mongoURI = "mongodb://localhost:27017/sessions"
 mongoose
