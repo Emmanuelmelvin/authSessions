@@ -20,19 +20,22 @@ exports.signupFunction = async (req, res) => {
 }
 
 exports.loginFunction = async (req, res) => {
-    const { email, password } = req.body
+    const { username , password } = req.body
     try{
 
-        const user = await User.findOne({email})
+        const user = await User.findOne({username})
+
+        req.session.isAuth = true
+        req.session.user = user
+        
         res.status(200).json({
             status: "success",
-            user
         })
 
-    } catch (error) {
+    } catch (error) { 
         console.log(error)
         res.status(401).json({
-            status: "failed"
+            status: "failed",
         })
     }
 }

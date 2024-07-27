@@ -6,11 +6,23 @@ const mongoose = require('mongoose')
 const router = require("./routes/authRoute")
 const app = express()
 
+const mongoURI = "mongodb://localhost:27017/sessions"
+
+const mongoStore =  new MongoDBSessionInstance({
+    uri: mongoURI,
+    collection: 'mySession'
+})
 // app.set('trust proxy', 1) // trust first proxy
 app.use(express.json())
+
+app.use(session({
+    secret: 'key',
+    resave: false,
+    saveUninitialized: false,
+    store: mongoStore
+}))
 app.use(router)
 
-const mongoURI = "mongodb://localhost:27017/sessions"
 mongoose
     .connect(mongoURI)
     .then(() => {
@@ -21,19 +33,6 @@ mongoose
     .catch((error) => {
         console.log(error)
     })
-
-const mongoStore =  new MongoDBSessionInstance({
-    uri: mongoURI,
-    collection: 'mySession'
-})
-
-
-app.use(session({
-    secret: 'key',
-    resave: false,
-    saveUninitialized: false,
-    store: mongoStore
-}))
 
 app.get('/' , (req , res) => {
     req.session.isAuth = true
