@@ -1,7 +1,6 @@
 exports.postRetriver = (req , res) => {
-    if(!req.session.auth){
-       return res.json(401).json({
-            status: "unahorized"
-        })
-    } 
+    console.log(req.session.user)
+    res.status(200).json({
+        status: "success"
+    })
 }
